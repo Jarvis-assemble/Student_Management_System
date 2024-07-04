@@ -141,20 +141,24 @@ const validateRequestBody = (req, res, next) => {
  If validation fails, it responds with a 400 status and the validation error message. If validation succeeds, it calls next() to proceed to the route handler.
 */
 
-app.post('/submit', upload.single('avatar'), async (req, res) => {
-    console.log(req.body)
-    // res.status(200).json({ message: 'Request is valid', data: req.body, createdAt: new Date() });
-    const { name, gender,dept, email, telNo,cutoff, bday,inputAddress,inputCity,inputState, inputZip} = req.body;
-    if (!req.file) {
-      res.status(400).json({ error: 'Image not found' });
-    }
-  const avatar = req.file.path; 
-  try {
-    await schema.validateAsync({ name, gender, dept,email, telNo,cutoff, bday,inputAddress,inputCity,inputState, inputZip, avatar });
-  } catch (err) {
-    return res.status(400).json({ error:err.message });
+app.post('/submit', upload.single('avatar'), validateRequestBody,async (req, res) => {
+  //   console.log(req.body)
+  //   // res.status(200).json({ message: 'Request is valid', data: req.body, createdAt: new Date() });
+  //   const { name, gender,dept, email, telNo,cutoff, bday,inputAddress,inputCity,inputState, inputZip} = req.body;
+  //   if (!req.file) {
+  //     res.status(400).json({ error: 'Image not found' });
+  //   }
+  // const avatar = req.file.path; 
+  // try {
+  //   await schema.validateAsync({ name, gender, dept,email, telNo,cutoff, bday,inputAddress,inputCity,inputState, inputZip, avatar });
+  // } catch (err) {
+  //   return res.status(400).json({ error:err.message });
 
-  }
+  // }
+
+  console.log(req.body)
+ // res.status(200).json({ message: 'Request is valid', data: req.body, createdAt: new Date() });
+
   const { studentArray } = await convertCsvToJson();
     if (studentArray.some(student => student.email === email || student.telNo === telNo)) {
       fspr.unlink(avatar);
