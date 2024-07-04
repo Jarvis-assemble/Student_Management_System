@@ -110,8 +110,18 @@ async function convertCsvToJson() {
 const validateRequestBody = (req, res, next) => {
 
    // console.log(req.body)
-  const { error } = schema.validate(req.body, { abortEarly: false }); //abort Early false in order to note all errors
-
+  const { error } = schema.validate(req.body, 
+    {
+      abortEarly: false,
+      errors: {
+        label: 'key',
+        wrap: {
+          label: false
+        }
+      }
+    }
+  ); //abort Early false in order to note all errors
+   
   if (error) {
     // Extract all validation error messages
     const errorMessages = error.details.map(detail => detail.message);
