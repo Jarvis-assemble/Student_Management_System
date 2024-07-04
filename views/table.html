@@ -1,0 +1,83 @@
+<body>
+    <h3><b>STUDENT DATABASE</b></h3>
+    <div class="navbar">
+      <a href="/"><b>Add Student</b></a>
+      <a href="/students/"><b>Student Data</b></a>
+    </div>
+    
+    <div class="tools">
+      <input id="search" class="Search-field" type="text" placeholder="Enter search term" />
+      <button id="searchButton" class="Search-button">Search</button>
+      <button id="clearButton" class="Search-button">Clear filters</button>
+    </div>
+  
+    <div class="container">
+      <table id="studentTable" class="student-table">
+        <thead>
+          <tr>
+            <th>Student Id</th>
+            <th>Student Name</th>
+            <th>Gender</th>
+            <th>Dept.</th>
+            <th>Email</th>
+            <th>Telephone Number</th>
+            <th>Cutoff</th>
+            <th>Birthday</th>
+            
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Profile Picture</th>
+
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  
+    <script>
+      function getStudents(url) {
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            populateStudentTable(data);
+          })
+          .catch((error) => {
+            console.error('Error fetching student data:', error);
+          });
+      }
+  
+      getStudents('http://localhost:3000/students/');
+  
+      function populateStudentTable(data) {
+        const studentTable = document.getElementById('studentTable').getElementsByTagName('tbody')[0];
+  
+        // Clear existing rows
+        while (studentTable.rows.length > 0) {
+          studentTable.deleteRow(0);
+        }
+  
+        data.forEach((student) => {
+          const row = studentTable.insertRow();
+  
+          row.innerHTML = `
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.gender}</td>
+            <tg>${student.dept}</td>
+            <td>${student.email}</td>
+            <td>${student.telNo}</td>
+            <tg>${student.cutoff}</td>
+            <td>${student.bday}</td>
+            <td>${student.inputCity}</td>
+            <td>${student.inputState}</td>
+            <td>${student.inputZip}</td>
+
+            <td><img src="http://localhost:3000/images/${student.avatarPath}" alt="Profile Pic" style="width: 50px; height: 50px;"></td>
+          `;
+        });
+      }
+    </script>
+  </body>
+  

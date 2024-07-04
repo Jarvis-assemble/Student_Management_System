@@ -11,10 +11,10 @@ async function sendData() {
 
     const data = await response.json();
 
-    if (response.ok) {
+    if (response.status=='success') {
       console.log('Success:', data);
       // Redirect to '/user/' or perform any other success actions
-      // window.location.href = '/user/';
+      window.location.href = '/student/';
     } else {
       const ehandle = document.getElementById('Ehandle');
       if (data.errors) {

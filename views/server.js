@@ -141,7 +141,7 @@ app.post('/submit', upload.single('avatar'), async (req, res) => {
   try {
     await schema.validateAsync({ name, gender, dept,email, telNo,cutoff, bday,inputAddress,inputCity,inputState, inputZip, avatar });
   } catch (err) {
-    return res.status(400).send(err.message);
+    return res.json({ errorcode: 400, status: 'error' , error:err.message });
   }
   const { studentArray } = await convertCsvToJson();
     if (studentArray.some(student => student.email === email || student.telNo === telNo)) {
@@ -154,13 +154,35 @@ app.post('/submit', upload.single('avatar'), async (req, res) => {
     // Append new student data to CSV file
     const newStudent = `${req.studentID},${name},${gender},${dept},${email},${telNo},${cutoff},${bday},${inputAddress},${inputCity},${inputState},${inputZip},${req.avatarPath}\n`;
     await fspr.appendFile(dBFile, newStudent);
-  
-    res.status(200).send('Form submitted successfully');
+    res.json({ status: 'success' });
+    
 });
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/Homepage.html');
-  });
+});
+  
+app.get('/students/', async (req, res) => {
+  const searchTerm = req.query;
+  const { studentArray } = await convertCsvToJson(dBFile);
+  if (
+    (searchTerm.id == undefined || searchTerm.id === '') &&
+    (searchTerm.email === undefined || searchTerm.email === '')
+  ) {
+    res.json(studentArray);
+  } else {
+    const newarr = studentArray.filter((student) => {
+      return student.id === searchTerm.id || student.email === searchTerm.email;
+    });
+    res.json(newarr);
+  }
+});
+
+
+app.get('/student/', async (req, res) => {
+  res.sendFile(__dirname + '/table.html');
+});
+
 
 app.listen(port=3000, (err) => {
     if (err) {
