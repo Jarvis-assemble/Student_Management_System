@@ -1,5 +1,5 @@
 const form = document.querySelector("#addstud");
-
+//note
 async function sendData() {
   const formData = new FormData(form);
 
