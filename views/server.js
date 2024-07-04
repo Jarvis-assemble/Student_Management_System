@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const Joi=require('joi');
 const multer = require('multer');
 const fspr = require('fs').promises;
@@ -9,13 +10,13 @@ const imagesPath = path.join(__dirname, '..','database/images');
 const imgrouter = require(path.join(__dirname, '..','database/imageroute'));
 const app = express();
 const { v4: uuidv4 } = require('uuid');
-
+app.use(express.static(__dirname + '..','/public'));
 // const upload=multer();
 //parse json bodies
 app.use(express.json())
 ///chumma
 
-
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 const schema=Joi.object(
     {
