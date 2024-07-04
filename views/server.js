@@ -12,7 +12,7 @@ const app = express();
 const { v4: uuidv4 } = require('uuid');
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
-
+app.use(express.static(path.join(__dirname)));
 // const upload=multer();
 //parse json bodies
 app.use(express.json())
