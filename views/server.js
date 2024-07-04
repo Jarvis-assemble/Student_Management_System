@@ -144,27 +144,27 @@ app.post('/submit', upload.single('avatar'), async (req, res) => {
     // res.status(200).json({ message: 'Request is valid', data: req.body, createdAt: new Date() });
     const { name, gender,dept, email, telNo,cutoff, bday,inputAddress,inputCity,inputState, inputZip} = req.body;
     if (!req.file) {
-      return res.status(400).send('Pleaskie upload a passport picture');
+      res.status(400).json({ error: 'Image not found' });
     }
   const avatar = req.file.path; 
   try {
     await schema.validateAsync({ name, gender, dept,email, telNo,cutoff, bday,inputAddress,inputCity,inputState, inputZip, avatar });
   } catch (err) {
-    return res.json({ errorcode: 400, status: 'error' , error:err.message });
+    return res.status(400).json({ error:err.message });
+
   }
   const { studentArray } = await convertCsvToJson();
     if (studentArray.some(student => student.email === email || student.telNo === telNo)) {
       fspr.unlink(avatar);
       // Remove uploaded file if email or telNo is not unique
       id = id-1
-      return res.status(400).send('Email or telephone number already exists');
+      res.status(400).json({ error: 'Email or telephone number already exists' });
     }
   
     // Append new student data to CSV file
     const newStudent = `${req.studentID},${name},${gender},${dept},${email},${telNo},${cutoff},${bday},${inputAddress},${inputCity},${inputState},${inputZip},${req.avatarPath}\n`;
     await fspr.appendFile(dBFile, newStudent);
-    res.json({ status: 'success' });
-    
+    res.sendFile(__dirname + '/table.html');
 });
 
 app.get('/', (req, res) => {
