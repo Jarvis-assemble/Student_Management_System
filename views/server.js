@@ -16,7 +16,6 @@ app.use(express.static(path.join(__dirname)));
 // const upload=multer();
 //parse json bodies
 app.use(express.json())
-///chumma
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
