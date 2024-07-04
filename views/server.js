@@ -8,11 +8,14 @@ const dBFile = path.join(__dirname, '..','database/student_data.csv');
 const imagesPath = path.join(__dirname, '..','database/images');
 const imgrouter = require(path.join(__dirname, '..','database/imageroute'));
 const app = express();
+const { v4: uuidv4 } = require('uuid');
 
 // const upload=multer();
 //parse json bodies
 app.use(express.json())
 ///chumma
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
 const schema=Joi.object(
     {
@@ -51,11 +54,16 @@ const storage = multer.diskStorage({
   },
   filename: async (req, file, cb) => {
     // const val = await getStudentID();
-     req.studentID = id;
+    const uuid = uuidv4();
+
+  // Example formatting for student ID
+  const studentId = `ST-${uuid.replace(/-/g, '').slice(0, 10)}`; // Example format: ST-123e4567e89
+    console.log(studentId)
+     req.studentID = studentId;
     // req.month = val.month;
     console.log(id)
     req.avatarPath = req.studentID + path.extname(file.originalname);
-    id++;
+    
     cb(null, req.avatarPath);
   },
 });
