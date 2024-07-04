@@ -10,7 +10,9 @@ const imagesPath = path.join(__dirname, '..','database/images');
 const imgrouter = require(path.join(__dirname, '..','database/imageroute'));
 const app = express();
 const { v4: uuidv4 } = require('uuid');
-app.use(express.static(__dirname + '..','/public'));
+
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
 // const upload=multer();
 //parse json bodies
 app.use(express.json())
