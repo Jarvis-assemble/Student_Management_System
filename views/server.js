@@ -2,13 +2,18 @@ const express = require('express');
 const path = require('path');
 const Joi=require('joi');
 const multer = require('multer');
+const fspr = require('fs').promises;
+const bodyParser = require('body-parser');
+const dBFile = path.join(__dirname, '..','database/student_data.csv');
+const imagesPath = path.join(__dirname, '..','database/images');
+const imgrouter = require(path.join(__dirname, '..','database/imageroute'));
 const app = express();
 
-const upload=multer();
+// const upload=multer();
 //parse json bodies
 app.use(express.json())
 ///chumma
-
+app.use(bodyParser.urlencoded({ extended: true }));
 const schema=Joi.object(
     {
         name: Joi.string().min(3).max(30).required(),
@@ -21,13 +26,78 @@ const schema=Joi.object(
         inputAddress: Joi.string().min(5).required(),
         inputCity: Joi.string().required(),
         inputState: Joi.string().required(),
-        inputZip: Joi.string().required()
+    inputZip: Joi.string().required(),
+    avatar: Joi.any().required().messages({
+      'any.required': 'Please upload a passport picture'
+    })
    // avatar: Joi.string().required()
        
         
     }
 )
 
+const jpgFileFilter = async (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+var id =1
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, imagesPath);
+  },
+  filename: async (req, file, cb) => {
+    // const val = await getStudentID();
+     req.studentID = id;
+    // req.month = val.month;
+    console.log(id)
+    req.avatarPath = req.studentID + path.extname(file.originalname);
+    id++;
+    cb(null, req.avatarPath);
+  },
+});
+const upload = multer({ storage: storage, fileFilter: jpgFileFilter });
+app.use(imgrouter)
+
+
+async function convertCsvToJson() {
+  try {
+    const inputCsv = await fspr.readFile(dBFile, 'utf-8');
+    const studentArray = [];
+    const lines = inputCsv.split('\n');
+    let lineCount = lines.length;
+    if (lines != '') {
+      for (const line of lines) {
+        const [studentID, name, gender, dept,email, telNo,cutoff, bday,inputAddress,inputCity,inputState, inputZip,avatarPath] = line.split(',');
+        if (name !== undefined) {
+          const student = {
+            id: studentID,
+            name: name,
+            gender: gender,
+            dept:dept,
+            email: email,
+            telNo: telNo,
+            cutoff:cutoff,
+            bday: bday,
+            inputAddress: inputAddress,
+            inputCity: inputCity,
+            inputState: inputState,
+            inputZip:inputZip,
+            avatarPath: avatarPath
+           
+          };
+          studentArray.push(student);
+        }
+      }
+    }
+    return { studentArray, lineCount };
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
 // Middleware for validation
 const validateRequestBody = (req, res, next) => {
 
@@ -52,10 +122,33 @@ const validateRequestBody = (req, res, next) => {
  If validation fails, it responds with a 400 status and the validation error message. If validation succeeds, it calls next() to proceed to the route handler.
 */
 
-app.post('/submit', upload.none(), validateRequestBody, (req, res) => {
+app.post('/submit', upload.single('avatar'), async (req, res) => {
     console.log(req.body)
-    res.status(200).json({ message: 'Request is valid', data: req.body, createdAt: new Date() });
-  });
+    // res.status(200).json({ message: 'Request is valid', data: req.body, createdAt: new Date() });
+    const { name, gender,dept, email, telNo,cutoff, bday,inputAddress,inputCity,inputState, inputZip} = req.body;
+    if (!req.file) {
+      return res.status(400).send('Pleaskie upload a passport picture');
+    }
+  const avatar = req.file.path; 
+  try {
+    await schema.validateAsync({ name, gender, dept,email, telNo,cutoff, bday,inputAddress,inputCity,inputState, inputZip, avatar });
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
+  const { studentArray } = await convertCsvToJson();
+    if (studentArray.some(student => student.email === email || student.telNo === telNo)) {
+      fspr.unlink(avatar);
+      // Remove uploaded file if email or telNo is not unique
+      id = id-1
+      return res.status(400).send('Email or telephone number already exists');
+    }
+  
+    // Append new student data to CSV file
+    const newStudent = `${req.studentID},${name},${gender},${dept},${email},${telNo},${cutoff},${bday},${inputAddress},${inputCity},${inputState},${inputZip},${req.avatarPath}\n`;
+    await fspr.appendFile(dBFile, newStudent);
+  
+    res.status(200).send('Form submitted successfully');
+});
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/Homepage.html');
