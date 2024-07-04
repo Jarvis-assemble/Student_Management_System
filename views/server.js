@@ -30,11 +30,10 @@ const schema=Joi.object(
         inputAddress: Joi.string().min(5).required(),
         inputCity: Joi.string().required(),
         inputState: Joi.string().required(),
-    inputZip: Joi.string().required(),
-    avatar: Joi.any().required().messages({
+        inputZip: Joi.string().required(),
+        avatar: Joi.any().required().messages({
       'any.required': 'Please upload a passport picture'
     })
-   // avatar: Joi.string().required()
        
         
     }
