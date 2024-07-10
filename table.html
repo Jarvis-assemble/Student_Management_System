@@ -1,0 +1,726 @@
+<!-- <html>
+  <head>
+    <link rel="stylesheet" href="/public/stylesheet/table.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <style>
+      /* General styles */
+    
+      #editform {
+          display: none;
+      }
+
+      /* Edit form styles */
+      .edit-form {
+          display: none; /* Hide by default */
+          flex-direction: column;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          max-width: 500px;
+          max-height: 500px;
+          margin: 20px auto;
+      }
+
+      .edit-form h3 {
+          text-align: center;
+          margin-bottom: 7px;
+      }
+
+      .edit-form input[type="text"],
+      .edit-form input[type="email"],
+      .edit-form input[type="date"],
+      .edit-form select {
+          width: 100%;
+          padding: 5px;
+          margin: 5px 0;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+      }
+
+      .edit-form .btn {
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          padding: 10px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          width: 100%;
+          margin-top: 20px;
+      }
+
+      .edit-form .btn:hover {
+          background-color: #45a049;
+      }
+
+      h3 {
+          text-align: center;
+          margin-top: 20px;
+      }
+
+      .navbar {
+          display: flex;
+          justify-content: center;
+          background-color: #333;
+          overflow: hidden;
+      }
+
+      .navbar a {
+          color: white;
+          padding: 14px 20px;
+          text-align: center;
+          text-decoration: none;
+          font-size: 17px;
+      }
+
+      .navbar a:hover {
+          background-color: #ddd;
+          color: black;
+      }
+
+      /* Tools section */
+      .tools {
+          display: flex;
+          justify-content: center;
+          margin: 20px 0;
+      }
+
+      .Search-field {
+          padding: 10px;
+          font-size: 17px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+      }
+
+      .Search-button {
+          padding: 10px 20px;
+          font-size: 17px;
+          margin-left: 10px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+
+      .Search-button:hover {
+          background-color: #ddd;
+      }
+
+    
+
+      /* Edit button */
+      .edit-name {
+          display: flex;
+          justify-content: center;
+          margin-top: 10px;
+      }
+
+      .btn {
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          padding: 5px 10px;
+          cursor: pointer;
+      }
+
+      .btn:hover {
+          background-color: #45a049;
+      }
+
+      .glyphicon-edit {
+          margin-right: 5px;
+      }
+  </style>
+  </head>
+
+<body>
+    <h3><b>STUDENT DATABASE</b></h3>
+    <div class="navbar">
+      <a href="/">Add Student</a>
+      <a href="/students/">Student DataBase</a>
+    </div>
+    
+    <div class="tools">
+      <input id="search" class="Search-field" type="text" placeholder="Enter search term" />
+      <select id="departmentFilter" class="Search-field">
+          <option value="">Select Department</option>
+          <option value="ECE">ECE</option>
+          <option value="CSE">CSE</option>
+          <option value="IT">IT</option>
+          <option value="EEE">EEE</option>
+          <option value="ME">ME</option>
+          <option value="CE">CE</option>
+          <!-- Add more options as needed -->
+      <!-- </select>
+      <button id="searchButton" class="Search-button">Search</button>
+      <button id="clearButton" class="Search-button">Clear filters</button>
+  </div>
+  
+    <div class="container">
+      <table id="studentTable" class="student-table">
+        <thead>
+          <tr>
+            <th>Student Id</th>
+            <th>Student Name</th>
+            <th>Gender</th>
+            <th>Dept.</th>
+            <th>Email</th>
+            <th>Telephone Number</th>
+            <th>Cutoff</th>
+            <th>Birthday</th>
+            
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Profile Picture</th>
+            <th>View</th>
+
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <div id="msg"></div>
+      <div class="pagination" id="pagination"></div> 
+    </div>
+    <div id="editForm" class="edit-form">
+      <h3>Edit Student</h3>
+      <input type="hidden" id="studentId" />
+      <input type="text" id="studentName" placeholder="Name" />
+      <select id="studentGender">
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+      </select>
+      <input type="text" id="studentDept" placeholder="Department" />
+      <input type="email" id="studentEmail" placeholder="Email" />
+      <input type="text" id="studentTelNo" placeholder="Telephone Number" />
+      <input type="text" id="studentCutoff" placeholder="Cutoff" />
+      <input type="date" id="studentBday" placeholder="Birthday" />
+      <input type="text" id="studentCity" placeholder="City" />
+      <input type="text" id="studentState" placeholder="State" />
+      <input type="text" id="studentZip" placeholder="Zip" />
+      <button class="btn" onclick="saveStudent()">Save</button>
+  </div>
+    <script src="table.js"></script>
+  </body>
+  </html> -->
+
+  <!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/public/stylesheet/table.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #editform {
+            display: none;
+        }
+        table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+        td:nth-child(1) { max-width:  80px; }  /* ID */
+td:nth-child(2) { max-width: 150px; } /* Name */
+td:nth-child(3) { max-width: 100px; } /* Gender */
+td:nth-child(4) { max-width: 150px; } /* Department */
+td:nth-child(5) { max-width: 220px; } /* Email */
+td:nth-child(6) { width: 100px; } /* Telephone Number */
+td:nth-child(7) { width: 100px; } /* Cutoff */
+td:nth-child(8) { width: 100px; } /* Birthday */
+td:nth-child(9) { width: 150px; } /* City */
+td:nth-child(10) { width: 150px; } /* State */
+td:nth-child(11) { width: 100px; } /* Zip */
+td:nth-child(12) { width: 70px; }  /* Profile Pic */
+td:nth-child(13) { width: 50px; }  /* Placeholder column */
+
+        /* Edit form styles */
+        .edit-form {
+            display: none; /* Hide by default */
+            flex-direction: column;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            max-height: 500px;
+            margin: 20px auto;
+        }
+
+        .edit-form h3 {
+            text-align: center;
+            margin-bottom: 7px;
+        }
+
+        .edit-form input[type="text"],
+        .edit-form input[type="email"],
+        .edit-form input[type="date"],
+        .edit-form select {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .edit-form .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .edit-form .btn:hover {
+            background-color: #45a049;
+        }
+
+        h3 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            color: white;
+            padding: 14px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* Tools section */
+        .tools {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .Search-field {
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .Search-button {
+            padding: 10px 20px;
+            font-size: 17px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .Search-button:hover {
+            background-color: #ddd;
+        }
+
+        /* Student table */
+        .container {
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .student-table th, .student-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+        }
+
+        .student-table th {
+            background-color: #f2f2f2;
+        }
+
+        .student-table img {
+            display: flex;
+            margin: 0 auto;
+        }
+
+        /* Edit button */
+        .edit-name {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .glyphicon-edit {
+            margin-right: 5px;
+        }
+        
+        /* Pagination styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .pagination span, .pagination a {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 0 2px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .pagination a.active {
+            font-weight: bold;
+            background-color: #ddd;
+        }
+
+        .pagination .arrow {
+            font-weight: bold;
+        }
+    </style>
+    <script>
+
+
+        console.log('inside script')
+        
+        async function getStudents(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                } else {
+                    const data = await response.json();
+                    return data.reverse();
+                }
+            } catch (error) {
+                console.error('Error fetching student data:', error);
+            }
+        }
+
+        const rowsPerPage = 5;
+        let currentPage = 1;
+        let totalPages = 1;
+        let studentData = []; // Store fetched student data globally
+
+        async function pagesSetup() {
+            const apiUrl = 'http://localhost:3000/students/';
+
+            try {
+                studentData = await getStudents(apiUrl);
+                totalPages = Math.ceil(studentData.length / rowsPerPage);
+                displayTable(currentPage, studentData);
+            } catch (error) {
+                console.error('Error initializing page:', error);
+            }
+        }
+
+        function populateStudentTable(data) {
+            const studentTable = document.getElementById('studentTable').getElementsByTagName('tbody')[0];
+
+            // Clear existing rows
+            while (studentTable.rows.length > 0) {
+                studentTable.deleteRow(0);
+            }
+
+            
+            data.forEach((student) => {
+                const row = studentTable.insertRow();
+
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.name}</td>
+                    <td>${student.gender}</td>
+                    <td>${student.dept}</td>
+                    <td>${student.email}</td>
+                    <td>${student.telNo}</td>
+                    <td>${student.cutoff}</td>
+                    <td>${student.bday}</td>
+                    <td>${student.inputCity}</td>
+                    <td>${student.inputState}</td>
+                    <td>${student.inputZip}</td>
+                    <td><img src="http://localhost:3000/images/${student.avatarPath}" alt="Profile Pic" style="width: 50px; height: 50px;"></td>
+                    <td><a href="#" onclick="viewDetails('${student.id}')"><i class="fa fa-eye"></i></a></td>
+                `;
+            });
+        }
+
+        async function viewDetails(studentId) {
+            window.location.href = `editStudent.html?studentId=${studentId}`;
+        }
+        function displayTable(pageNumber, data) {
+            const startIndex = (pageNumber - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const slicedData = data.slice(startIndex, endIndex);
+
+            populateStudentTable(slicedData);
+            currentPage = pageNumber;
+            updatePagination();
+        }
+
+        // async function viewDetails(studentId) {
+        //     try {
+        //         const response = await fetch(`http://localhost:3000/students/${studentId}`);
+        //         const student = await response.json();
+        //         document.getElementById('editForm').style.display = 'flex';
+        //         document.getElementById('studentId').value = student.id;
+        //         document.getElementById('studentName').value = student.name;
+        //         document.getElementById('studentGender').value = student.gender;
+        //         document.getElementById('studentDept').value = student.dept;
+        //         document.getElementById('studentEmail').value = student.email;
+        //         document.getElementById('studentTelNo').value = student.telNo;
+        //         document.getElementById('studentCutoff').value = student.cutoff;
+        //         document.getElementById('studentBday').value = student.bday;
+        //         document.getElementById('studentCity').value = student.inputCity;
+        //         document.getElementById('studentState').value = student.inputState;
+        //         document.getElementById('studentZip').value = student.inputZip;
+        //     } catch (error) {
+        //         console.error('Error fetching student details:', error);
+        //     }
+        // }
+
+        function saveStudent() {
+            const studentId = document.getElementById('studentId').value;
+            const student = {
+                id: studentId,
+                name: document.getElementById('studentName').value,
+                gender: document.getElementById('studentGender').value,
+                dept: document.getElementById('studentDept').value,
+                email: document.getElementById('studentEmail').value,
+                telNo: document.getElementById('studentTelNo').value,
+                cutoff: document.getElementById('studentCutoff').value,
+                bday: document.getElementById('studentBday').value,
+                inputCity: document.getElementById('studentCity').value,
+                inputState: document.getElementById('studentState').value,
+                inputZip: document.getElementById('studentZip').value
+            };
+
+            fetch(`http://localhost:3000/students/${studentId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(student)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Student updated successfully:', data);
+                getStudents('http://localhost:3000/students/').then(data => {
+                    studentData = data;
+                    displayTable(currentPage, studentData);
+                });
+                document.getElementById('editForm').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error updating student:', error);
+            });
+        }
+
+        function updatePagination() {
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+
+            const prevArrow = document.createElement('span');
+            prevArrow.className = 'arrow';
+            prevArrow.textContent = '←';
+            prevArrow.addEventListener('click', function () {
+                if (currentPage > 1) {
+                    displayTable(currentPage - 1, studentData);
+                }
+            });
+            paginationContainer.appendChild(prevArrow);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLink = document.createElement('a');
+                pageLink.href = '#';
+                pageLink.textContent = i;
+                pageLink.onclick = function () {
+                    displayTable(i, studentData);
+                };
+                if (i === currentPage) {
+                    pageLink.style.fontWeight = 'bold';
+                }
+                paginationContainer.appendChild(pageLink);
+                paginationContainer.appendChild(document.createTextNode(' '));
+            }
+
+            const nextArrow = document.createElement('span');
+            nextArrow.className = 'arrow';
+            nextArrow.textContent = '→';
+            nextArrow.addEventListener('click', function () {
+                if (currentPage < totalPages) {
+                    displayTable(currentPage + 1, studentData);
+                }
+            });
+            paginationContainer.appendChild(nextArrow);
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchField = document.getElementById('search');
+            const clearButton = document.getElementById('clearButton');
+            const departmentFilter = document.getElementById('departmentFilter');
+            const cutoffMin = document.getElementById('cutoffMin');
+            const cutoffMax = document.getElementById('cutoffMax');
+            function filterStudents() {
+        const searchValue = searchField.value.trim().toLowerCase();
+        const departmentValue = departmentFilter.value;
+        const minCutoff = parseFloat(cutoffMin.value);
+        const maxCutoff = parseFloat(cutoffMax.value);
+        const studentTable = document.getElementById('studentTable').getElementsByTagName('tbody')[0];
+        const rows = studentTable.getElementsByTagName('tr');
+
+        Array.from(rows).forEach(row => {
+            const cells = row.getElementsByTagName('td');
+            const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+            const dept = cells[3].textContent;
+            const cutoff = parseFloat(cells[6].textContent);
+
+            const matchesSearch = searchValue === '' || rowText.includes(searchValue);
+            const matchesDept = departmentValue === '' || dept === departmentValue;
+            const matchesCutoff = (isNaN(minCutoff) || cutoff >= minCutoff) && (isNaN(maxCutoff) || cutoff <= maxCutoff);
+
+            if (matchesSearch && matchesDept && matchesCutoff) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+            searchField.addEventListener('input', filterStudents);
+            departmentFilter.addEventListener('change', filterStudents);
+
+            cutoffMin.addEventListener('input', filterStudents);
+    cutoffMax.addEventListener('input', filterStudents);
+            clearButton.addEventListener('click', function() {
+                searchField.value = '';
+                departmentFilter.value = '';
+                cutoffMin.value = '';
+        cutoffMax.value = '';
+                filterStudents();
+            });
+        });
+
+            pagesSetup();
+        
+    </script>
+</head>
+<body>
+    <h3>STUDENT DETAILS</h3>
+    <div class="navbar">
+        <a href="/">Add Student</a>
+      
+    </div>
+    <div class="tools">
+        <input id="search" class="Search-field" type="text" placeholder="Enter search term" />
+        <select id="departmentFilter" class="Search-field">
+            <option value="">Select Department</option>
+            <option value="CSE">CSE</option>
+            <option value="IT">IT</option>
+            <option value="ECE">ECE</option>
+            <option value="EEE">EEE</option>
+            <option value="ME">ME</option>
+            <option value="CE">CE</option>
+            <!-- Add more options as needed -->
+        </select>
+        <button id="searchButton" class="Search-button">Search</button>
+       
+        <div class="cutoff-range">
+            <label for="cutoffMin">Cutoff Range:</label>
+            <input type="number" id="cutoffMin" class="Search-field" placeholder="Min" />
+            <input type="number" id="cutoffMax" class="Search-field" placeholder="Max" />
+        </div>
+        <button id="clearButton" class="Search-button">Clear filters</button>
+    </div>
+    <div class="container">
+        <table class="student-table" id="studentTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Dept</th>
+                    <th>Email</th>
+                    <th>Tel No</th>
+                    <th>Cutoff</th>
+                    <th>Bday</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip</th>
+                    <th>Profile Pic</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be dynamically populated here -->
+            </tbody>
+        </table>
+        <div id="pagination" class="pagination"></div>
+    </div>
+
+    <div class="edit-form" id="editForm">
+        <h3>Edit Student</h3>
+        <input type="hidden" id="studentId">
+       
+        <input type="text" id="studentName">
+      
+        <input type="text" id="studentGender">
+     
+        <input type="text" id="studentDept">
+        <input type="email" id="studentEmail">
+     
+        <input type="text" id="studentTelNo">
+        <input type="text" id="studentCutoff">
+        <input type="date" id="studentBday">
+        <input type="text" id="studentCity">
+        <input type="text" id="studentState">
+        <input type="text" id="studentZip">
+        <button class="btn" onclick="saveStudent()">Save</button>
+    </div>
+</body>
+</html>

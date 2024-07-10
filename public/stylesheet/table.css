@@ -69,12 +69,13 @@ h3 {
     border-collapse: collapse;
     margin: 20px 0;
     font-size: 18px;
-    text-align: left;
+    text-align: center;
 }
 
 .student-table th, .student-table td {
     border: 1px solid #ddd;
     padding: 12px;
+    text-align: center;
 }
 
 .student-table th {
@@ -104,3 +105,38 @@ h3 {
 .btn:hover {
     background-color: #45a049;
 }
+
+  
+.pagination { 
+    display:flex;
+    justify-content: center;
+    padding: 16px; 
+} 
+
+  
+.pagination a { 
+    color: #fff; 
+    background-color: #31170a; 
+    border: 1px solid #afcc2e; 
+    border-radius: 8px; 
+    padding: 10px 10px; 
+    margin: 5px; 
+    text-decoration: none; 
+    font-size: 16px; 
+    transition: background-color 0.3s; 
+} 
+
+  
+.pagination a.active { 
+
+    background-color: #afcc2e; 
+    border: 1px solid #031b0d; 
+} 
+
+  
+.pagination a:hover:not(.active) { 
+
+    background-color: #afcc2e; 
+    border: 1px solid #2e0912;
+    color: #fff; 
+} 

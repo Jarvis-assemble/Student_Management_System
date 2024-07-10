@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #editForm {
+            display: none; /* Hidden by default, will be shown by JS if studentId exists */
+            flex-direction: column;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #editForm h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #editForm label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        #editForm input[type="text"],
+        #editForm input[type="email"],
+        #editForm input[type="tel"],
+        #editForm input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #editForm button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        #editForm button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="editForm">
+        <h3>Edit Student</h3>
+        <input type="hidden" id="studentId">
+        <input type="text" id="studentName" name="studentName">
+        <input type="text" id="studentGender" name="studentGender">
+        <input type="text" id="studentDept" name="studentDept">
+        <input type="email" id="studentEmail" name="studentEmail">
+        <input type="tel" id="studentTelNo" name="studentTelNo">
+        <input type="text" id="studentCutoff" name="studentCutoff">
+        <input type="date" id="studentBday" name="studentBday">
+        <input type="text" id="studentAddress" name="studentAddress">
+        <input type="text" id="studentCity" name="studentCity">
+        <input type="text" id="studentState" name="studentState">
+        <input type="text" id="studentZip" name="studentZip">
+        <button onclick="saveStudent()">Save</button>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const studentId = urlParams.get('studentId');
+            if (studentId) {
+                viewDetails(studentId);
+            }
+        };
+
+        async function viewDetails(studentId) {
+            try {
+                const response = await fetch(`http://localhost:3000/students/${studentId}`);
+                const student = await response.json();
+                document.getElementById('editForm').style.display = 'flex';
+                document.getElementById('studentId').value = student.id;
+                document.getElementById('studentName').value = student.name;
+                document.getElementById('studentGender').value = student.gender;
+                document.getElementById('studentDept').value = student.dept;
+                document.getElementById('studentEmail').value = student.email;
+                document.getElementById('studentTelNo').value = student.telNo;
+                document.getElementById('studentCutoff').value = student.cutoff;
+                document.getElementById('studentBday').value = student.bday;
+                document.getElementById('studentAddress').value = student.inputAddress;
+                document.getElementById('studentCity').value = student.inputCity;
+                document.getElementById('studentState').value = student.inputState;
+                document.getElementById('studentZip').value = student.inputZip;
+            } catch (error) {
+                console.error('Error fetching student details:', error);
+            }
+        }
+
+      async  function saveStudent() {
+            const studentId = document.getElementById('studentId').value;
+            const student = {
+                id: studentId,
+                name: document.getElementById('studentName').value,
+                gender: document.getElementById('studentGender').value,
+                dept: document.getElementById('studentDept').value,
+                email: document.getElementById('studentEmail').value,
+                telNo: document.getElementById('studentTelNo').value,
+                cutoff: document.getElementById('studentCutoff').value,
+                bday: document.getElementById('studentBday').value,
+                bday: document.getElementById('studentBday').value,
+                inputAddress: document.getElementById('studentAddress').value,
+                inputCity: document.getElementById('studentCity').value,
+                inputState: document.getElementById('studentState').value,
+                inputZip: document.getElementById('studentZip').value
+            };
+
+           const  response=await fetch(`http://localhost:3000/students/${studentId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(student)
+            })
+            const data = await response.json();
+            console.log("heloo" +data.status)
+if (!response.ok) {
+    if (data.errors) {
+        console.error(data.errors.join(', '));
+    } else {
+        console.error(data.error);
+    }
+} else if (data.status === 'success') {
+    window.location.href = '/student';
+} else {
+    console.error('Unexpected response:', data);
+}
+
+
+        }
+    </script>
+</body>
+</html>
